@@ -5,6 +5,7 @@ namespace ProductScrapper.Interfaces
 {
     public interface IWebsitesConsult
     {
-        public List<Website> ListHRef();
+        public List<Website> ReturnHRefAndProduct();
+
     }
 }

@@ -17,9 +17,9 @@ namespace ProductScrapper.Controllers
         }
 
         [HttpGet]
-        public List<Website> ReturnListHRef()
+        public List<Website> ReturnListWebSite()
         {
-           List<Website> ListWebSite = WebsitesConsult.ListHRef();
+           List<Website> ListWebSite = WebsitesConsult.ReturnHRefAndProduct();
 
             return ListWebSite;
         }
