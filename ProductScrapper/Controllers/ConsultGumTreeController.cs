@@ -7,19 +7,19 @@ namespace ProductScrapper.Controllers
 {
     [ApiController]
     [Route("[Controller]")]
-    public class WebsiteController : ControllerBase
+    public class ConsultGumTreeController : ControllerBase
     {
-        IWebsitesConsult WebsitesConsult;
+        IConsultGumTree ConsultGumTree;
 
-        public WebsiteController(IWebsitesConsult websitesConsult)
+        public ConsultGumTreeController(IConsultGumTree Consult)
         {
-            WebsitesConsult= websitesConsult;
+            ConsultGumTree= Consult;
         }
 
         [HttpGet]
-        public List<Website> ReturnListWebSite()
+        public List<AccessConsult> ReturnListAccessConsult()
         {
-           List<Website> ListWebSite = WebsitesConsult.ReturnHRefAndProduct();
+           List<AccessConsult> ListWebSite = ConsultGumTree.ReturnHRefAndProduct();
 
             return ListWebSite;
         }

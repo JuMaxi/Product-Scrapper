@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace ProductScrapper.Interfaces
 {
-    public interface IWebsitesConsult
+    public interface IConsultEbay
     {
-        public List<Website> ReturnHRefAndProduct();
-
+        public List<AccessConsult> ReturnHRefAndProduct();
     }
 }

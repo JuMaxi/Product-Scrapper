@@ -12,11 +12,11 @@ using File = System.IO.File;
 
 namespace ProductScrapper.Services
 {
-    public class WebsitesConsult : IWebsitesConsult
+    public class ConsultGumTree : IConsultGumTree
     {
         private string ReadHTML()
         {
-            string Path = @"C:\Dev\ProductScrapper\ProductScrapper\Examples\htmlpage.html";
+            string Path = @"C:\Dev\ProductScrapper\ProductScrapper\Examples\GumTree.html";
             string HTML = "";
 
             if (File.Exists(Path))
@@ -26,19 +26,19 @@ namespace ProductScrapper.Services
             return HTML;
         }
 
-        public List<Website> ReturnHRefAndProduct()
+        public List<AccessConsult> ReturnHRefAndProduct()
         {
             HtmlDocument HtmlDocument = new HtmlDocument();
             HtmlDocument.LoadHtml(ReadHTML());
 
-            List<Website> HRefs = new List<Website>();
+            List<AccessConsult> AccessConsult = new List<AccessConsult>();
 
             var XPath = HtmlDocument.DocumentNode.SelectNodes("//div/ul/li/article/a[@href]");
 
             foreach (HtmlNode Link in XPath)
             {
                 HtmlAttribute New = Link.Attributes["href"];
-                Website WebSite = new Website();
+                AccessConsult WebSite = new AccessConsult();
                 WebSite.Url = New.Value;
 
                 var H2Element = Link.SelectNodes("div/h2")[0];
@@ -46,13 +46,11 @@ namespace ProductScrapper.Services
                 Product = Product.Replace("\r\n", " ");
                 Product = Product.Replace("  ", "");
 
-                
-
                 WebSite.Product = Product;
 
-                HRefs.Add(WebSite);
+                AccessConsult.Add(WebSite);
             }
-            return HRefs;
+            return AccessConsult;
         }
       
     }
