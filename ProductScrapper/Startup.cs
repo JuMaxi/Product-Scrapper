@@ -30,6 +30,7 @@ namespace ProductScrapper
         {
             services.AddTransient<IConsultGumTree, ConsultGumTree>();
             services.AddTransient<IConsultEbay, ConsultEbay>();
+            services.AddTransient<IConsultTrashNothing, ConsultTrashNothing>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -41,7 +41,6 @@ namespace ProductScrapper.Services
                 Product = Product.Replace("amp;", "");
                 WebSite.Product = Product;
 
-
                 AccessConsult.Add(WebSite);
             }
             return AccessConsult;
