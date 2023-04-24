@@ -5,7 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Examples\Vinted.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Examples\Vinted.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
