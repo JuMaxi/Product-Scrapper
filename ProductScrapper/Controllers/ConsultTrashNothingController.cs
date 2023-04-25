@@ -17,9 +17,9 @@ namespace ProductScrapper.Controllers
         }
 
         [HttpGet]
-        public List<AccessConsult> ReturnListAccessConsult()
+        public List<AccessConsult> ReturnListAccessConsult([FromQuery] string Filter)
         {
-            List<AccessConsult> AccessConsult = ConsultTrashNothing.ReturnHRefAndProduct();
+            List<AccessConsult> AccessConsult = ConsultTrashNothing.ReturnHRefAndProduct(Filter);
 
             return AccessConsult;
         }

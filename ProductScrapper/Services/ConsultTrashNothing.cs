@@ -4,27 +4,28 @@ using ProductScrapper.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Net;
 
 namespace ProductScrapper.Services
 {
     public class ConsultTrashNothing : IConsultTrashNothing
     {
-        private string ReadHTML()
+        private string ReadHTMLfromWebSite(string Filter)
         {
-            string Path = @"C:\Dev\ProductScrapper\ProductScrapper\Examples\TrashNothing.html";
+            string WebSite = "https://trashnothing.com/beta/browse?types=offer&search=" + Filter;
             string HTML = "";
 
-            if(File.Exists(Path))
+            using(var Client = new WebClient())
             {
-                HTML = File.ReadAllText(Path);
+                HTML= Client.DownloadString(WebSite);
             }
             return HTML;
         }
 
-        public List<AccessConsult> ReturnHRefAndProduct()
+        public List<AccessConsult> ReturnHRefAndProduct(string Filter)
         {
             HtmlDocument HtmlDocument = new HtmlDocument();
-            HtmlDocument.LoadHtml(ReadHTML());
+            HtmlDocument.LoadHtml(ReadHTMLfromWebSite(Filter));
 
             List<AccessConsult> AccessConsult= new List<AccessConsult>();
 
