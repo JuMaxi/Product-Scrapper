@@ -2,6 +2,7 @@
 using ProductScrapper.Interfaces;
 using ProductScrapper.Models;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace ProductScrapper.Controllers
 {
@@ -17,11 +18,11 @@ namespace ProductScrapper.Controllers
         }
 
         [HttpGet]
-        public List<AccessConsult> ReturnListAccessConsult()
+        public List<AccessConsult> ReturnListAccessConsult([FromQuery] string Filter)
         {
-           List<AccessConsult> ListWebSite = ConsultGumTree.ReturnHRefAndProduct();
+           List<AccessConsult> ListWebSite = ConsultGumTree.ReturnHRefAndProduct(Filter);
 
-            return ListWebSite;
+           return ListWebSite;
         }
 
         

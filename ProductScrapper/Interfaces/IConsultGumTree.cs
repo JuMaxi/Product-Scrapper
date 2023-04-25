@@ -5,7 +5,7 @@ namespace ProductScrapper.Interfaces
 {
     public interface IConsultGumTree
     {
-        public List<AccessConsult> ReturnHRefAndProduct();
+        public List<AccessConsult> ReturnHRefAndProduct(string Filter);
 
     }
 }

@@ -5,6 +5,7 @@ using ProductScrapper.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Xml;
 using System.Xml.Linq;
 using static System.Net.WebRequestMethods;
@@ -14,22 +15,23 @@ namespace ProductScrapper.Services
 {
     public class ConsultGumTree : IConsultGumTree
     {
-        private string ReadHTML()
+        private string ReadHTMLfromWebSite(string Filter)
         {
-            string Path = @"C:\Dev\ProductScrapper\ProductScrapper\Examples\GumTree.html";
+            string WebSite = "https://www.gumtree.com/search?search_category=all&q=" + Filter;
             string HTML = "";
 
-            if (File.Exists(Path))
+            using (var Client = new WebClient())
             {
-                HTML = File.ReadAllText(Path);
+                HTML = Client.DownloadString(WebSite);
             }
+            
             return HTML;
         }
 
-        public List<AccessConsult> ReturnHRefAndProduct()
+        public List<AccessConsult> ReturnHRefAndProduct(string Filter)
         {
             HtmlDocument HtmlDocument = new HtmlDocument();
-            HtmlDocument.LoadHtml(ReadHTML());
+            HtmlDocument.LoadHtml(ReadHTMLfromWebSite(Filter));
 
             List<AccessConsult> AccessConsult = new List<AccessConsult>();
 
@@ -52,6 +54,6 @@ namespace ProductScrapper.Services
             }
             return AccessConsult;
         }
-      
+
     }
 }
