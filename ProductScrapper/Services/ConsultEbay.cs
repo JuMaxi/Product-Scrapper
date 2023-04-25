@@ -4,27 +4,29 @@ using ProductScrapper.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
+using System.Net;
+using static System.Net.WebRequestMethods;
 
 namespace ProductScrapper.Services
 {
     public class ConsultEbay : IConsultEbay
     {
-        private string ReadHTML()
+        private string ReadHTMLfromWebSite(string Filter)
         {
-            string Path = @"C:\Dev\ProductScrapper\ProductScrapper\Examples\Ebay.html";
+            string WebSite = "https://www.ebay.co.uk/sch/i.html?_from=R40&_nkw=" + Filter;
             string HTML = "";
 
-            if(File.Exists(Path))
+            using (var Client = new WebClient())
             {
-                HTML = File.ReadAllText(Path);
+                HTML = Client.DownloadString(WebSite);
             }
             return HTML;
         }
 
-        public List<AccessConsult> ReturnHRefAndProduct()
+        public List<AccessConsult> ReturnHRefAndProduct(string Filter)
         {
             HtmlDocument HtmlDocument = new HtmlDocument(); 
-            HtmlDocument.LoadHtml(ReadHTML());
+            HtmlDocument.LoadHtml(ReadHTMLfromWebSite(Filter));
 
             List<AccessConsult> AccessConsult = new List<AccessConsult>();
 

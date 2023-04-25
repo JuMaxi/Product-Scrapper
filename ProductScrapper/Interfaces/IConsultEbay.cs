@@ -5,6 +5,6 @@ namespace ProductScrapper.Interfaces
 {
     public interface IConsultEbay
     {
-        public List<AccessConsult> ReturnHRefAndProduct();
+        public List<AccessConsult> ReturnHRefAndProduct(string Filter);
     }
 }
