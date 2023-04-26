@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\ConsultGumTreeController.cs" />
+    <Compile Remove="Controllers\ConsultTrashNothingController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Examples\Vinted.json" />
   </ItemGroup>
 

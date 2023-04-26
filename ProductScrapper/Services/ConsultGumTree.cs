@@ -39,9 +39,10 @@ namespace ProductScrapper.Services
 
             foreach (HtmlNode Link in XPath)
             {
+                string StartUrl = "https://www.gumtree.com";
                 HtmlAttribute New = Link.Attributes["href"];
                 AccessConsult WebSite = new AccessConsult();
-                WebSite.Url = New.Value;
+                WebSite.Url = (StartUrl + New.Value);
 
                 var H2Element = Link.SelectNodes("div/h2")[0];
                 var Product = H2Element.InnerText.Trim();

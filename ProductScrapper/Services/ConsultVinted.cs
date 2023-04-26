@@ -5,6 +5,8 @@ using ProductScrapper.Interfaces;
 using ProductScrapper.Models;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using static System.Net.WebRequestMethods;
 
 namespace ProductScrapper.Services
 {
@@ -18,13 +20,25 @@ namespace ProductScrapper.Services
     {
         public List<VintedProduct> Items { get; set; }
     }
+
     public class ConsultVinted : IVinted
     {
-        string Path = @"C:\Dev\ProductScrapper\ProductScrapper\Examples\Vinted.json";
-
-        public List<AccessConsult> ReturnHRefAndProduct()
+        
+        
+        public List<AccessConsult> ReturnHRefAndProduct(string Filter)
         {
-            StreamReader Reader = new StreamReader(Path);
+            string JsonApi = "https://www.vinted.co.uk/api/v2/vas_gallery/items?search_text=" + Filter;
+            string Website = "https://www.vinted.co.uk/catalog?search_text=" + Filter;
+
+            var Json = "";
+
+            using(var J = new WebClient())
+            {
+                Json = J.DownloadString(JsonApi);
+            }
+            
+
+            StreamReader Reader = new StreamReader(Json);
             var json = Reader.ReadToEnd();
 
             VintedResponse VintedResponse = JsonConvert.DeserializeObject<VintedResponse>(json);

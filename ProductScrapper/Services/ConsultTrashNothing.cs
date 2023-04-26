@@ -33,9 +33,10 @@ namespace ProductScrapper.Services
 
             foreach (HtmlNode Link in XPath)
             {
+                string StartUrl = "https://trashnothing.com";
                 HtmlAttribute New = Link.Attributes["href"];
                 AccessConsult Website = new AccessConsult();
-                Website.Url = New.Value;
+                Website.Url = (StartUrl + New.Value);
 
                 var SpanElement = Link.SelectNodes("span")[0];
                 var Product = SpanElement.InnerText.Trim();
@@ -50,3 +51,4 @@ namespace ProductScrapper.Services
         }
     }
 }
+
