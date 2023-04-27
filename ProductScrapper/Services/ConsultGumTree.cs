@@ -48,8 +48,11 @@ namespace ProductScrapper.Services
                 var Product = H2Element.InnerText.Trim();
                 Product = Product.Replace("\r\n", " ");
                 Product = Product.Replace("  ", "");
-
                 WebSite.Product = Product;
+
+                var Image = Link.SelectNodes("div/div/img");
+                var ImageUrl = Image[0].Attributes["src"];
+                WebSite.ImageProduct = ImageUrl.Value;
 
                 AccessConsult.Add(WebSite);
             }

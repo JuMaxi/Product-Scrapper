@@ -4,6 +4,7 @@ using ProductScrapper.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net;
 
 namespace ProductScrapper.Services
@@ -42,8 +43,17 @@ namespace ProductScrapper.Services
                 var Product = SpanElement.InnerText.Trim();
                 Product = Product.Replace("\n", " ");
                 Product = Product.Replace("  ", "");
-
                 Website.Product = Product;
+
+                var Image = Link.SelectNodes("div/div/div/img");
+                var ImageUrl = Image[0].Attributes["src"];
+
+                if(ImageUrl == null)
+                {
+                    ImageUrl = Image[0].Attributes["data-src"];
+                }
+
+                Website.ImageProduct = ImageUrl.Value;
 
                 AccessConsult.Add(Website);
             }
