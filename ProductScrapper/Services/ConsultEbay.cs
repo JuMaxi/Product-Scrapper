@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using ProductScrapper.Interfaces;
 using ProductScrapper.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
@@ -43,11 +44,18 @@ namespace ProductScrapper.Services
                 Product = Product.Replace("amp;", "");
                 WebSite.Product = Product;
 
+                var Image = Link.SelectNodes("parent::div/parent::div/div/div/a/div/img");
+                var ImageUrl = Image[0].Attributes["src"];
+                WebSite.ImageProduct = ImageUrl.Value;
+                
                 AccessConsult.Add(WebSite);
             }
             return AccessConsult;
         }
 
-       
+        private object SetParent(HtmlNode link)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
