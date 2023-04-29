@@ -10,7 +10,7 @@ using static System.Net.WebRequestMethods;
 
 namespace ProductScrapper.Services
 {
-    public class SearchEbay : ISearchEbay
+    public class SearchEbay : ISearch
     {
         private string ReadHTMLfromWebSite(string Filter)
         {

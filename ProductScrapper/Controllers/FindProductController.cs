@@ -10,30 +10,21 @@ namespace ProductScrapper.Controllers
     [Route("[Controller]")]
     public class FindProductController : ControllerBase
     {
-        ISearchEbay ConsultEbay;
-        ISearchGumTree ConsultGumTree;
-        ISearchTrashNothing ConsultTrashNothing;
-        public FindProductController(ISearchEbay Ebay, ISearchGumTree GumTree, ISearchTrashNothing TrashNothing) 
+        IEnumerable<ISearch> Search;
+        public FindProductController(IEnumerable<ISearch> Searches) 
         {
-            ConsultEbay = Ebay;
-            ConsultGumTree = GumTree;
-            ConsultTrashNothing = TrashNothing;
+            Search = Searches;
         }
 
         [HttpGet]
         public List<Advertisement> GetAdvertisements([FromQuery] string Filter)
         {
-            List<Advertisement> Advertisement = ConsultEbay.GetAdvertisement(Filter);
-
-            List<Advertisement> New = ConsultGumTree.GetAdvertisement(Filter);
-
-            Advertisement.AddRange(New);
-
-            New = ConsultTrashNothing.GetAdvertisement(Filter);
-
-            Advertisement.AddRange(New);    
-
-            return Advertisement;
+            List<Advertisement> Advertisements = new List<Advertisement>();
+            foreach(ISearch Search in Search)
+            {
+                Advertisements.AddRange(Search.GetAdvertisement(Filter));
+            }
+            return Advertisements;
         }
 
     }

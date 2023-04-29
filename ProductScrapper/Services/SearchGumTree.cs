@@ -13,7 +13,7 @@ using File = System.IO.File;
 
 namespace ProductScrapper.Services
 {
-    public class SearchGumTree : ISearchGumTree
+    public class SearchGumTree : ISearch
     {
         private string ReadHTMLfromWebSite(string Filter)
         {

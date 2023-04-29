@@ -10,7 +10,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace ProductScrapper.Services
 {
-    public class SearchTrashNothing : ISearchTrashNothing
+    public class SearchTrashNothing : ISearch
     {
         private string ReadHTMLfromWebSite(string Filter)
         {
