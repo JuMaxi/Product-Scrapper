@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using ProductScrapper.Interfaces;
 using ProductScrapper.Models;
 using System.Collections.Generic;

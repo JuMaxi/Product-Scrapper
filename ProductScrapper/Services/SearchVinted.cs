@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 using ProductScrapper.Interfaces;
 using ProductScrapper.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using static System.Net.WebRequestMethods;
 
 namespace ProductScrapper.Services
 {

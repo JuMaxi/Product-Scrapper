@@ -1,52 +1,21 @@
 ﻿using HtmlAgilityPack;
 using ProductScrapper.Interfaces;
-using ProductScrapper.Models;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Net;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ProductScrapper.Services
 {
-    public class SearchTrashNothing : ISearch
+    public class SearchTrashNothing : SearchBase, ISearch
     {
-        private string ReadHTMLfromWebSite(string Filter)
+        public override string GetWebSite()
         {
-            string WebSite = "https://trashnothing.com/beta/browse?types=offer&search=" + Filter;
-            string HTML = "";
-
-            using(var Client = new WebClient())
-            {
-                HTML= Client.DownloadString(WebSite);
-            }
-            return HTML;
+            string WebSite = "https://trashnothing.com/beta/browse?types=offer&search=";
+            return WebSite;
         }
-
-        public List<Advertisement> GetAdvertisement(string Filter)
+        public override string GetXPath()
         {
-            HtmlDocument HtmlDocument = new HtmlDocument();
-            HtmlDocument.LoadHtml(ReadHTMLfromWebSite(Filter));
-
-            List<Advertisement> Advertisements= new List<Advertisement>();
-
-            var XPath = HtmlDocument.DocumentNode.SelectNodes("//div/div/div/a[@href]");
-
-            foreach (HtmlNode Link in XPath)
-            {
-                Advertisement Advertisement = new Advertisement();
-                Advertisement.Url = GetUrl(Link);
-
-                Advertisement.Product = GetProduct(Link);
-
-                Advertisement.ImageProduct = GetImage(Link);
-
-                Advertisements.Add(Advertisement);
-            }
-            return Advertisements;
+            string XPath = "//div/div/div/a[@href]";
+            return XPath;
         }
-        private string GetUrl(HtmlNode Link)
+        public override string GetUrl(HtmlNode Link)
         {
             string Url = "https://trashnothing.com";
             HtmlAttribute New = Link.Attributes["href"];
@@ -54,7 +23,7 @@ namespace ProductScrapper.Services
 
             return Url;
         }
-        private string GetProduct(HtmlNode Link)
+        public override string GetProduct(HtmlNode Link)
         {
             var SpanElement = Link.SelectNodes("span")[0];
             var Product = SpanElement.InnerText.Trim();
@@ -63,7 +32,7 @@ namespace ProductScrapper.Services
 
             return Product;
         }
-        private string GetImage(HtmlNode Link)
+        public override string GetImage(HtmlNode Link)
         {
             var Image = Link.SelectNodes("div/div/div/img");
 

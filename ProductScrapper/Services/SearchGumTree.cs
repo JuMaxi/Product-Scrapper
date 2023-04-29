@@ -1,56 +1,21 @@
 ﻿using HtmlAgilityPack;
-using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
 using ProductScrapper.Interfaces;
-using ProductScrapper.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Xml;
-using System.Xml.Linq;
-using static System.Net.WebRequestMethods;
-using File = System.IO.File;
 
 namespace ProductScrapper.Services
 {
-    public class SearchGumTree : ISearch
+    public class SearchGumTree : SearchBase,ISearch
     {
-        private string ReadHTMLfromWebSite(string Filter)
+        public override string GetWebSite()
         {
-            string WebSite = "https://www.gumtree.com/search?search_category=all&q=" + Filter;
-            string HTML = "";
-
-            using (var Client = new WebClient())
-            {
-                HTML = Client.DownloadString(WebSite);
-            }
-            
-            return HTML;
+            string WebSite = "https://www.gumtree.com/search?search_category=all&q=";
+            return WebSite;
         }
-
-        public List<Advertisement> GetAdvertisement(string Filter)
+        public override string GetXPath()
         {
-            HtmlDocument HtmlDocument = new HtmlDocument();
-            HtmlDocument.LoadHtml(ReadHTMLfromWebSite(Filter));
-
-            List<Advertisement> Advertisements = new List<Advertisement>();
-
-            var XPath = HtmlDocument.DocumentNode.SelectNodes("//div/ul/li/article/a[@href]");
-
-            foreach (HtmlNode Link in XPath)
-            {
-                Advertisement Advertisement = new Advertisement();
-                Advertisement.Url = GetUrl(Link);
-               
-                Advertisement.Product = GetProduct(Link);
-
-                Advertisement.ImageProduct = GetImage(Link);
-
-                Advertisements.Add(Advertisement);
-            }
-            return Advertisements;
+            string XPath = "//div/ul/li/article/a[@href]";
+            return XPath;
         }
-        private string GetUrl(HtmlNode Link)
+        public override string GetUrl(HtmlNode Link)
         {
             string Url = "https://www.gumtree.com";
             HtmlAttribute New = Link.Attributes["href"];
@@ -58,7 +23,7 @@ namespace ProductScrapper.Services
 
             return Url;
         }
-        private string GetProduct(HtmlNode Link)
+        public override string GetProduct(HtmlNode Link)
         {
             var H2Element = Link.SelectNodes("div/h2")[0];
             var Product = H2Element.InnerText.Trim();
@@ -67,7 +32,7 @@ namespace ProductScrapper.Services
 
             return Product;
         }
-        private string GetImage(HtmlNode Link) 
+        public override string GetImage(HtmlNode Link) 
         {
             var Image = Link.SelectNodes("div/div/img");
             var ImageUrl = Image[0].Attributes["src"];
