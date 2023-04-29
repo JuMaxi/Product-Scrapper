@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace ProductScrapper.Interfaces
 {
-    public interface IVinted
+    public interface ISearchVinted
     {
-        public List<AccessConsult> ReturnHRefAndProduct(string Filter);
+        public List<Advertisement> ReturnHRefAndProduct(string Filter);
     }
 }

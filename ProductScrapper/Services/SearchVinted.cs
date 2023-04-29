@@ -21,11 +21,11 @@ namespace ProductScrapper.Services
         public List<VintedProduct> Items { get; set; }
     }
 
-    public class ConsultVinted : IVinted
+    public class SearchVinted : ISearchVinted
     {
         
         
-        public List<AccessConsult> ReturnHRefAndProduct(string Filter)
+        public List<Advertisement> ReturnHRefAndProduct(string Filter)
         {
             string JsonApi = "https://www.vinted.co.uk/api/v2/vas_gallery/items?search_text=" + Filter;
             string Website = "https://www.vinted.co.uk/catalog?search_text=" + Filter;
@@ -42,11 +42,11 @@ namespace ProductScrapper.Services
             var json = Reader.ReadToEnd();
 
             VintedResponse VintedResponse = JsonConvert.DeserializeObject<VintedResponse>(json);
-            List<AccessConsult> AccessConsult = new List<AccessConsult>();
+            List<Advertisement> AccessConsult = new List<Advertisement>();
 
             foreach (VintedProduct Item in VintedResponse.Items)
             {
-                AccessConsult Access = new AccessConsult();
+                Advertisement Access = new Advertisement();
                 Access.Url = Item.Url;
                 Access.Product = Item.Title;
 

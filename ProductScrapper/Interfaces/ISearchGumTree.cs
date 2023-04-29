@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace ProductScrapper.Interfaces
 {
-    public interface IConsultTrashNothing
+    public interface ISearchGumTree
     {
-        public List<AccessConsult> ReturnHRefAndProduct(string Filter);
+        public List<Advertisement> GetAdvertisement(string Filter);
+
     }
 }

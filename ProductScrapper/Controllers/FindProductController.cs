@@ -10,10 +10,10 @@ namespace ProductScrapper.Controllers
     [Route("[Controller]")]
     public class FindProductController : ControllerBase
     {
-        IConsultEbay ConsultEbay;
-        IConsultGumTree ConsultGumTree;
-        IConsultTrashNothing ConsultTrashNothing;
-        public FindProductController(IConsultEbay Ebay, IConsultGumTree GumTree, IConsultTrashNothing TrashNothing) 
+        ISearchEbay ConsultEbay;
+        ISearchGumTree ConsultGumTree;
+        ISearchTrashNothing ConsultTrashNothing;
+        public FindProductController(ISearchEbay Ebay, ISearchGumTree GumTree, ISearchTrashNothing TrashNothing) 
         {
             ConsultEbay = Ebay;
             ConsultGumTree = GumTree;
@@ -21,25 +21,19 @@ namespace ProductScrapper.Controllers
         }
 
         [HttpGet]
-        public List<AccessConsult> ReturnListAccessConsult([FromQuery] string Filter)
+        public List<Advertisement> GetAdvertisements([FromQuery] string Filter)
         {
-            List<AccessConsult> AccessConsult = ConsultEbay.ReturnHRefAndProduct(Filter);
+            List<Advertisement> Advertisement = ConsultEbay.GetAdvertisement(Filter);
 
-            List<AccessConsult> New = ConsultGumTree.ReturnHRefAndProduct(Filter);
+            List<Advertisement> New = ConsultGumTree.GetAdvertisement(Filter);
 
-            foreach(AccessConsult Line in New)
-            {
-                AccessConsult.Add(Line);
-            }
+            Advertisement.AddRange(New);
 
-            New = ConsultTrashNothing.ReturnHRefAndProduct(Filter);
+            New = ConsultTrashNothing.GetAdvertisement(Filter);
 
-            foreach(AccessConsult Line in New)
-            {
-                AccessConsult.Add(Line);
-            }
+            Advertisement.AddRange(New);    
 
-            return AccessConsult;
+            return Advertisement;
         }
 
     }

@@ -10,7 +10,7 @@ using static System.Net.WebRequestMethods;
 
 namespace ProductScrapper.Services
 {
-    public class ConsultEbay : IConsultEbay
+    public class SearchEbay : ISearchEbay
     {
         private string ReadHTMLfromWebSite(string Filter)
         {
@@ -24,19 +24,19 @@ namespace ProductScrapper.Services
             return HTML;
         }
 
-        public List<AccessConsult> ReturnHRefAndProduct(string Filter)
+        public List<Advertisement> GetAdvertisement(string Filter)
         {
             HtmlDocument HtmlDocument = new HtmlDocument(); 
             HtmlDocument.LoadHtml(ReadHTMLfromWebSite(Filter));
 
-            List<AccessConsult> AccessConsult = new List<AccessConsult>();
+            List<Advertisement> AccessConsult = new List<Advertisement>();
 
             var XPath = HtmlDocument.DocumentNode.SelectNodes("//div/ul/li/div/div/a[@href]");
 
             foreach(HtmlNode Link in XPath)
             {
                 HtmlAttribute New = Link.Attributes["href"];
-                AccessConsult WebSite = new AccessConsult();
+                Advertisement WebSite = new Advertisement();
                 WebSite.Url = New.Value;
 
                 var SpanElement = Link.SelectNodes("div/span")[0];

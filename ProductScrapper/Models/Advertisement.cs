@@ -1,6 +1,6 @@
 ﻿namespace ProductScrapper.Models
 {
-    public class AccessConsult
+    public class Advertisement
     {
         public string Url { get; set; }
         public string Product { get; set; }

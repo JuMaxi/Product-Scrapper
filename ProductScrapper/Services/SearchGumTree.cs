@@ -13,7 +13,7 @@ using File = System.IO.File;
 
 namespace ProductScrapper.Services
 {
-    public class ConsultGumTree : IConsultGumTree
+    public class SearchGumTree : ISearchGumTree
     {
         private string ReadHTMLfromWebSite(string Filter)
         {
@@ -28,12 +28,12 @@ namespace ProductScrapper.Services
             return HTML;
         }
 
-        public List<AccessConsult> ReturnHRefAndProduct(string Filter)
+        public List<Advertisement> GetAdvertisement(string Filter)
         {
             HtmlDocument HtmlDocument = new HtmlDocument();
             HtmlDocument.LoadHtml(ReadHTMLfromWebSite(Filter));
 
-            List<AccessConsult> AccessConsult = new List<AccessConsult>();
+            List<Advertisement> AccessConsult = new List<Advertisement>();
 
             var XPath = HtmlDocument.DocumentNode.SelectNodes("//div/ul/li/article/a[@href]");
 
@@ -41,7 +41,7 @@ namespace ProductScrapper.Services
             {
                 string StartUrl = "https://www.gumtree.com";
                 HtmlAttribute New = Link.Attributes["href"];
-                AccessConsult WebSite = new AccessConsult();
+                Advertisement WebSite = new Advertisement();
                 WebSite.Url = (StartUrl + New.Value);
 
                 var H2Element = Link.SelectNodes("div/h2")[0];
