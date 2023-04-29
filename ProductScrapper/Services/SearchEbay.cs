@@ -29,33 +29,44 @@ namespace ProductScrapper.Services
             HtmlDocument HtmlDocument = new HtmlDocument(); 
             HtmlDocument.LoadHtml(ReadHTMLfromWebSite(Filter));
 
-            List<Advertisement> AccessConsult = new List<Advertisement>();
+            List<Advertisement> Advertisements = new List<Advertisement>();
 
             var XPath = HtmlDocument.DocumentNode.SelectNodes("//div/ul/li/div/div/a[@href]");
 
             foreach(HtmlNode Link in XPath)
             {
-                HtmlAttribute New = Link.Attributes["href"];
-                Advertisement WebSite = new Advertisement();
-                WebSite.Url = New.Value;
+                Advertisement Advertisement = new Advertisement();
+                Advertisement.Url = GetUrl(Link);
 
-                var SpanElement = Link.SelectNodes("div/span")[0];
-                var Product = SpanElement.InnerHtml.Trim();
-                Product = Product.Replace("amp;", "");
-                WebSite.Product = Product;
+                Advertisement.Product = GetProduct(Link);
 
-                var Image = Link.SelectNodes("parent::div/parent::div/div/div/a/div/img");
-                var ImageUrl = Image[0].Attributes["src"];
-                WebSite.ImageProduct = ImageUrl.Value;
+                Advertisement.ImageProduct = GetImage(Link);
                 
-                AccessConsult.Add(WebSite);
+                Advertisements.Add(Advertisement);
             }
-            return AccessConsult;
+            return Advertisements;
         }
 
-        private object SetParent(HtmlNode link)
+        private string GetUrl(HtmlNode Link)
         {
-            throw new NotImplementedException();
+            HtmlAttribute New = Link.Attributes["href"];
+            return New.Value;
         }
+        private string GetProduct(HtmlNode Link) 
+        {
+            var SpanElement = Link.SelectNodes("div/span")[0];
+            var Product = SpanElement.InnerHtml.Trim();
+            Product = Product.Replace("amp;", "");
+
+            return Product;
+        }
+        private string GetImage(HtmlNode Link)
+        {
+            var Image = Link.SelectNodes("parent::div/parent::div/div/div/a/div/img");
+            var ImageUrl = Image[0].Attributes["src"];
+
+            return ImageUrl.Value;
+        }
+
     }
 }

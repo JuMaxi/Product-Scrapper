@@ -33,7 +33,7 @@ namespace ProductScrapper.Services
             HtmlDocument HtmlDocument = new HtmlDocument();
             HtmlDocument.LoadHtml(ReadHTMLfromWebSite(Filter));
 
-            List<Advertisement> AccessConsult = new List<Advertisement>();
+            List<Advertisement> Advertisements = new List<Advertisement>();
 
             var XPath = HtmlDocument.DocumentNode.SelectNodes("//div/ul/li/article/a[@href]");
 
@@ -41,22 +41,22 @@ namespace ProductScrapper.Services
             {
                 string StartUrl = "https://www.gumtree.com";
                 HtmlAttribute New = Link.Attributes["href"];
-                Advertisement WebSite = new Advertisement();
-                WebSite.Url = (StartUrl + New.Value);
+                Advertisement Advertisement = new Advertisement();
+                Advertisement.Url = (StartUrl + New.Value);
 
                 var H2Element = Link.SelectNodes("div/h2")[0];
                 var Product = H2Element.InnerText.Trim();
                 Product = Product.Replace("\r\n", " ");
                 Product = Product.Replace("  ", "");
-                WebSite.Product = Product;
+                Advertisement.Product = Product;
 
                 var Image = Link.SelectNodes("div/div/img");
                 var ImageUrl = Image[0].Attributes["src"];
-                WebSite.ImageProduct = ImageUrl.Value;
+                Advertisement.ImageProduct = ImageUrl.Value;
 
-                AccessConsult.Add(WebSite);
+                Advertisements.Add(Advertisement);
             }
-            return AccessConsult;
+            return Advertisements;
         }
 
     }
