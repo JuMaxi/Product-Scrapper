@@ -39,24 +39,40 @@ namespace ProductScrapper.Services
 
             foreach (HtmlNode Link in XPath)
             {
-                string StartUrl = "https://www.gumtree.com";
-                HtmlAttribute New = Link.Attributes["href"];
                 Advertisement Advertisement = new Advertisement();
-                Advertisement.Url = (StartUrl + New.Value);
+                Advertisement.Url = GetUrl(Link);
+               
+                Advertisement.Product = GetProduct(Link);
 
-                var H2Element = Link.SelectNodes("div/h2")[0];
-                var Product = H2Element.InnerText.Trim();
-                Product = Product.Replace("\r\n", " ");
-                Product = Product.Replace("  ", "");
-                Advertisement.Product = Product;
-
-                var Image = Link.SelectNodes("div/div/img");
-                var ImageUrl = Image[0].Attributes["src"];
-                Advertisement.ImageProduct = ImageUrl.Value;
+                Advertisement.ImageProduct = GetImage(Link);
 
                 Advertisements.Add(Advertisement);
             }
             return Advertisements;
+        }
+        private string GetUrl(HtmlNode Link)
+        {
+            string Url = "https://www.gumtree.com";
+            HtmlAttribute New = Link.Attributes["href"];
+            Url = Url + New.Value;
+
+            return Url;
+        }
+        private string GetProduct(HtmlNode Link)
+        {
+            var H2Element = Link.SelectNodes("div/h2")[0];
+            var Product = H2Element.InnerText.Trim();
+            Product = Product.Replace("\r\n", " ");
+            Product = Product.Replace("  ", "");
+
+            return Product;
+        }
+        private string GetImage(HtmlNode Link) 
+        {
+            var Image = Link.SelectNodes("div/div/img");
+            var ImageUrl = Image[0].Attributes["src"];
+
+            return ImageUrl.Value;
         }
 
     }
