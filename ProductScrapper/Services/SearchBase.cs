@@ -18,18 +18,18 @@ namespace ProductScrapper.Services
             }
             return HTML;
         }
-        public List<Advertisement> GetAdvertisement(string Filter)
+        public List<Advertisements> GetAdvertisement(string Filter)
         {
             HtmlDocument HtmlDocument = new HtmlDocument();
             HtmlDocument.LoadHtml(ReadHTMLfromWebSite(Filter));
 
-            List<Advertisement> Advertisements = new List<Advertisement>();
+            List<Advertisements> Advertisements = new List<Advertisements>();
 
             var XPath = HtmlDocument.DocumentNode.SelectNodes(GetXPath());
 
             foreach (HtmlNode Link in XPath)
             {
-                Advertisement Advertisement = new Advertisement();
+                Advertisements Advertisement = new Advertisements();
                 Advertisement.Url = GetUrl(Link);
 
                 Advertisement.Product = GetProduct(Link);

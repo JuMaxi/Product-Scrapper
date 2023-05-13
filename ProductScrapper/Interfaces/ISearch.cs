@@ -5,6 +5,6 @@ namespace ProductScrapper.Interfaces
 {
     public interface ISearch
     {
-        public List<Advertisement> GetAdvertisement(string Filter);
+        public List<Advertisements> GetAdvertisement(string Filter);
     }
 }

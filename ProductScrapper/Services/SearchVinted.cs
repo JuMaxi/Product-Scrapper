@@ -22,7 +22,7 @@ namespace ProductScrapper.Services
     {
         
         
-        public List<Advertisement> ReturnHRefAndProduct(string Filter)
+        public List<Advertisements> ReturnHRefAndProduct(string Filter)
         {
             string JsonApi = "https://www.vinted.co.uk/api/v2/vas_gallery/items?search_text=" + Filter;
             string Website = "https://www.vinted.co.uk/catalog?search_text=" + Filter;
@@ -33,17 +33,16 @@ namespace ProductScrapper.Services
             {
                 Json = J.DownloadString(JsonApi);
             }
-            
 
             StreamReader Reader = new StreamReader(Json);
             var json = Reader.ReadToEnd();
 
             VintedResponse VintedResponse = JsonConvert.DeserializeObject<VintedResponse>(json);
-            List<Advertisement> AccessConsult = new List<Advertisement>();
+            List<Advertisements> AccessConsult = new List<Advertisements>();
 
             foreach (VintedProduct Item in VintedResponse.Items)
             {
-                Advertisement Access = new Advertisement();
+                Advertisements Access = new Advertisements();
                 Access.Url = Item.Url;
                 Access.Product = Item.Title;
 

@@ -5,6 +5,6 @@ namespace ProductScrapper.Interfaces
 {
     public interface ISearchVinted
     {
-        public List<Advertisement> ReturnHRefAndProduct(string Filter);
+        public List<Advertisements> ReturnHRefAndProduct(string Filter);
     }
 }
