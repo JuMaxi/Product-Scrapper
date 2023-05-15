@@ -37,12 +37,14 @@ namespace ProductScrapper.Services
                         #product-main{
                             float: left;
                             color: #4343e5d7;
-                            font-size: 18px;
+                            font-size: 14px;
                             text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.292);
                             padding: 3px;
                         }
                         #product-title{
                             text-align: center;
+                            width: 200px;
+                            height: 40px;
                         }
                     </style>
                 </head>
