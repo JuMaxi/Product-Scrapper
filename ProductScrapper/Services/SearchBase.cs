@@ -10,6 +10,7 @@ namespace ProductScrapper.Services
         private string ReadHTMLfromWebSite(string Filter)
         {
             string WebSite = GetWebSite() + Filter;
+            
             string HTML = "";
 
             using (var Client = new WebClient())

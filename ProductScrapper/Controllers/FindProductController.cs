@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using ProductScrapper.Interfaces;
 using ProductScrapper.Models;
 using ProductScrapper.Services;
+using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Mail;
 
 namespace ProductScrapper.Controllers
 {
@@ -30,8 +33,14 @@ namespace ProductScrapper.Controllers
             WriteFormatEmail Write = new WriteFormatEmail();
             string HTML = Write.FormatHtml(Advertisements);
 
-            return HTML;
+            SendEmail SendEmail = new SendEmail();
+            SendEmail.SendEmailToClient(HTML);
+
+            return "Ok";
         }
 
+
+
+       
     }
 }
