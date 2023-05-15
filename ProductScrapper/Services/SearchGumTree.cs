@@ -37,6 +37,11 @@ namespace ProductScrapper.Services
             var Image = Link.SelectNodes("div/div/img");
             var ImageUrl = Image[0].Attributes["src"];
 
+            if(ImageUrl.Value == "")
+            {
+                ImageUrl = Image[0].Attributes["data-src"];
+            }
+
             return ImageUrl.Value;
         }
 

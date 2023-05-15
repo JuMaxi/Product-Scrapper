@@ -19,28 +19,18 @@ namespace ProductScrapper.Controllers
         
 
         [HttpGet]
-        public List<Advertisements> GetAdvertisements([FromQuery] string Filter)
+        public string GetAdvertisements([FromQuery] string Filter)
         {
-            // 1) Extrair dados / pesquisa
             List<Advertisements> Advertisements = new List<Advertisements>();
             foreach(ISearch Search in Search)
             {
                 Advertisements.AddRange(Search.GetAdvertisement(Filter));
             }
-            // Fim 1)
-
-            // 2) Gerar email
 
             WriteFormatEmail Write = new WriteFormatEmail();
             string HTML = Write.FormatHtml(Advertisements);
-               
 
-
-            // var gerador = new GeradorDeEmail()
-            // string email = gerador.Gerar(Advertisements)
-            // Fim 2)
-
-            return Advertisements;
+            return HTML;
         }
 
     }
