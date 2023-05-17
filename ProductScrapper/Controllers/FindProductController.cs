@@ -15,9 +15,13 @@ namespace ProductScrapper.Controllers
     public class FindProductController : ControllerBase
     {
         IEnumerable<ISearch> Search;
-        public FindProductController(IEnumerable<ISearch> Searches) 
+        IAccessDataBase AccessDB;
+        ICheckSendEmail CheckSendEmail;
+        public FindProductController(IEnumerable<ISearch> Searches, IAccessDataBase Access, ICheckSendEmail Check) 
         {
             Search = Searches;
+            AccessDB = Access;
+            CheckSendEmail = Check;
         }
         
 
@@ -29,6 +33,9 @@ namespace ProductScrapper.Controllers
             {
                 Advertisements.AddRange(Search.GetAdvertisement(Filter));
             }
+
+            Advertisements = CheckSendEmail.CheckIfAdIsNew(Advertisements);
+            CheckSendEmail.SaveAdvertisementDB(Advertisements);
 
             WriteFormatEmail Write = new WriteFormatEmail();
             string HTML = Write.FormatHtml(Advertisements);

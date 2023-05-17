@@ -31,7 +31,10 @@ namespace ProductScrapper
             services.AddTransient<ISearch, SearchGumTree>();
             services.AddTransient<ISearch, SearchEbay>();
             services.AddTransient<ISearch, SearchTrashNothing>();
+            services.AddTransient<IAccessDataBase, AccessDataBase>();
+            services.AddTransient<ICheckSendEmail, CheckSendEmail>();
             services.AddTransient<ISearchVinted, SearchVinted>();
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
