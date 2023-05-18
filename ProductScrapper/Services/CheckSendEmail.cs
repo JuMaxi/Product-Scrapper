@@ -15,6 +15,7 @@ namespace ProductScrapper.Services
         {
             AccessDB= accessDB;
         }
+
         public void SaveAdvertisementDB(List<Advertisements> Advertisements)
         {
             foreach (Advertisements Ad in Advertisements)
@@ -60,19 +61,9 @@ namespace ProductScrapper.Services
                 }
             }
 
-            if(SavedAdvertisements.Count > 0)
-            {
-                DeleteAdsDB(SavedAdvertisements);
-            }
-
             return Advertisements;
         }
 
-        private void DeleteAdsDB(List<Advertisements> SavedList)
-        {
-            string Delete = "delete from Advertisements where Id <= " + SavedList[SavedList.Count - 1].Id;
-
-            AccessDB.AccessNonQuery(Delete);
-        }
+       
     }
 }
