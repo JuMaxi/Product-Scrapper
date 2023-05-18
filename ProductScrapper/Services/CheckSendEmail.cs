@@ -50,15 +50,10 @@ namespace ProductScrapper.Services
         {
             List<Advertisements> SavedAdvertisements = ReadAdvertisementDB();
 
-            Advertisements A;
-            Advertisements B;
             for (int Position = 0; Position < SavedAdvertisements.Count; Position++)
             {
                 for (int PositionAd = 0; PositionAd < Advertisements.Count; PositionAd++)
                 {
-                    A = Advertisements[PositionAd];
-                    B = SavedAdvertisements[Position];
-
                     if (Advertisements[PositionAd].Product == SavedAdvertisements[Position].Product)
                     {
                         Advertisements.Remove(Advertisements[PositionAd]);
@@ -67,7 +62,6 @@ namespace ProductScrapper.Services
                     }
                 }
             }
-
             return Advertisements;
         }
 

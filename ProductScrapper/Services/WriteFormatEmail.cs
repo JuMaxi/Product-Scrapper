@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ProductScrapper.Services
 {
-    public class WriteFormatEmail
+    public class WriteFormatEmail : IWriteFormatEmail
     {
         public string FormatHtml(List<Advertisements> Advertisement)
         {

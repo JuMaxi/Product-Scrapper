@@ -17,11 +17,13 @@ namespace ProductScrapper.Controllers
         IEnumerable<ISearch> Search;
         IAccessDataBase AccessDB;
         ICheckSendEmail CheckSendEmail;
-        public FindProductController(IEnumerable<ISearch> Searches, IAccessDataBase Access, ICheckSendEmail Check) 
+        IWriteFormatEmail WriteFormatEmail;
+        public FindProductController(IEnumerable<ISearch> Searches, IAccessDataBase Access, ICheckSendEmail Check, IWriteFormatEmail Write) 
         {
             Search = Searches;
             AccessDB = Access;
             CheckSendEmail = Check;
+            WriteFormatEmail = Write;
         }
         
 
@@ -37,8 +39,7 @@ namespace ProductScrapper.Controllers
             Advertisements = CheckSendEmail.CheckIfAdIsNew(Advertisements);
             CheckSendEmail.SaveAdvertisementDB(Advertisements);
 
-            WriteFormatEmail Write = new WriteFormatEmail();
-            string HTML = Write.FormatHtml(Advertisements);
+            string HTML = WriteFormatEmail.FormatHtml(Advertisements);
 
             SendEmail SendEmail = new SendEmail();
             SendEmail.SendEmailToClient(HTML);
