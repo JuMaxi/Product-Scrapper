@@ -1,8 +1,6 @@
-﻿using HtmlAgilityPack;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using ProductScrapper.Interfaces;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace ProductScrapper.Services
 {

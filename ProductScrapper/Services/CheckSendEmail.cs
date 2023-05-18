@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.Primitives;
-using ProductScrapper.Interfaces;
+﻿using ProductScrapper.Interfaces;
 using ProductScrapper.Models;
-using System;
 using System.Collections.Generic;
 using System.Data;
 

@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProductScrapper.Interfaces;
 using ProductScrapper.Models;
 using ProductScrapper.Services;
-using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Mail;
 
 namespace ProductScrapper.Controllers
 {
@@ -15,13 +12,11 @@ namespace ProductScrapper.Controllers
     public class FindProductController : ControllerBase
     {
         IEnumerable<ISearch> Search;
-        IAccessDataBase AccessDB;
         ICheckSendEmail CheckSendEmail;
         IWriteFormatEmail WriteFormatEmail;
-        public FindProductController(IEnumerable<ISearch> Searches, IAccessDataBase Access, ICheckSendEmail Check, IWriteFormatEmail Write) 
+        public FindProductController(IEnumerable<ISearch> Searches, ICheckSendEmail Check, IWriteFormatEmail Write) 
         {
             Search = Searches;
-            AccessDB = Access;
             CheckSendEmail = Check;
             WriteFormatEmail = Write;
         }
