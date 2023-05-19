@@ -31,9 +31,13 @@ namespace ProductScrapper.Controllers
                 Advertisements.AddRange(Search.GetAdvertisement(Filter));
             }
 
-            Advertisements = CheckSendEmail.CheckIfAdIsNew(Advertisements);
+            Advertisements = CheckSendEmail.ReadAdvertisementDB(Advertisements);
             CheckSendEmail.SaveAdvertisementDB(Advertisements);
 
+            if (Advertisements.Count == 0)
+            {
+                return "There are no new adds.";
+            }
             string HTML = WriteFormatEmail.FormatHtml(Advertisements);
 
             SendEmail SendEmail = new SendEmail();

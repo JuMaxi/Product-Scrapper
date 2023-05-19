@@ -11,7 +11,7 @@ namespace ProductScrapper.Services
 
         public CheckSendEmail(IAccessDataBase accessDB)
         {
-            AccessDB= accessDB;
+            AccessDB = accessDB;
         }
 
         public void SaveAdvertisementDB(List<Advertisements> Advertisements)
@@ -24,45 +24,28 @@ namespace ProductScrapper.Services
             }
         }
 
-        private List<Advertisements> ReadAdvertisementDB()
+        public List<Advertisements> ReadAdvertisementDB(List<Advertisements> Advertisements)
         {
-            string Select = "select * from Advertisements";
-            List<Advertisements> NewAdvertisements = new List<Advertisements>();
-
-            IDataReader Reader = AccessDB.AccessReader(Select);
-
-            while (Reader.Read())
+            for (int Position = 0; Position < Advertisements.Count; Position++)
             {
-                Advertisements Ad = new Advertisements();
+                string Select = "select * from Advertisements where Product='" + Advertisements[Position].Product + "'";
 
-                Ad.Url = Reader["Url"].ToString();
-                Ad.Product = Reader["Product"].ToString();
-                Ad.ImageProduct = Reader["ImageProduct"].ToString();
+                IDataReader Reader = AccessDB.AccessReader(Select);
 
-                NewAdvertisements.Add(Ad);
-            }
-            return NewAdvertisements;
-        }
-
-        public List<Advertisements> CheckIfAdIsNew(List<Advertisements> Advertisements)
-        {
-            List<Advertisements> SavedAdvertisements = ReadAdvertisementDB();
-
-            for (int Position = 0; Position < SavedAdvertisements.Count; Position++)
-            {
-                for (int PositionAd = 0; PositionAd < Advertisements.Count; PositionAd++)
+                while (Reader.Read())
                 {
-                    if (Advertisements[PositionAd].Product == SavedAdvertisements[Position].Product)
-                    {
-                        Advertisements.Remove(Advertisements[PositionAd]);
+                    Advertisements.Remove(Advertisements[Position]);
 
-                        break;
-                    }
+                    Position = Position - 1;
+
+                    break;
+                    
                 }
             }
             return Advertisements;
         }
 
-       
+        
+
     }
 }
