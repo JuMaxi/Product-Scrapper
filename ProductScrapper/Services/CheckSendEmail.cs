@@ -35,12 +35,11 @@ namespace ProductScrapper.Services
                 while (Reader.Read())
                 {
                     Advertisements.Remove(Advertisements[Position]);
-
                     Position = Position - 1;
-
                     break;
                     
                 }
+                Reader.Close();
             }
             return Advertisements;
         }

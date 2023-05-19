@@ -38,6 +38,7 @@ namespace ProductScrapper.Controllers
             {
                 return "There are no new adds.";
             }
+
             string HTML = WriteFormatEmail.FormatHtml(Advertisements);
 
             SendEmail SendEmail = new SendEmail();
