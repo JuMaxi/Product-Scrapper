@@ -26,9 +26,10 @@ namespace ProductScrapper.Controllers
         public string GetAdvertisements([FromQuery] List<string> Filter)
         {
             List<Advertisements> Advertisements = new List<Advertisements>();
-            foreach (ISearch Search in Search)
+
+            foreach (string F in Filter)
             {
-                foreach (string F in Filter)
+                foreach (ISearch Search in Search)
                 {
                     Advertisements.AddRange(Search.GetAdvertisement(F));
                 }
