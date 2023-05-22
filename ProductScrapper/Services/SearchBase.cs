@@ -22,24 +22,44 @@ namespace ProductScrapper.Services
         public List<Advertisements> GetAdvertisement(string Filter)
         {
             HtmlDocument HtmlDocument = new HtmlDocument();
-            HtmlDocument.LoadHtml(ReadHTMLfromWebSite(Filter));
+            var html = ReadHTMLfromWebSite(Filter);
+            HtmlDocument.LoadHtml(html);
 
             List<Advertisements> Advertisements = new List<Advertisements>();
 
-            var XPath = HtmlDocument.DocumentNode.SelectNodes(GetXPath());
+            var selector = GetXPath();
+            var XPath = HtmlDocument.DocumentNode.SelectNodes(selector);
+            if (XPath is null)
+            {
+                return new List<Advertisements>();
+            }
 
             foreach (HtmlNode Link in XPath)
             {
                 Advertisements Advertisement = new Advertisements();
                 Advertisement.Url = GetUrl(Link);
 
-                Advertisement.Product = GetProduct(Link);
+                string Product = GetProduct(Link);
+                Advertisement.Product = DropSpecialCharacter(Product);
 
                 Advertisement.ImageProduct = GetImage(Link);
 
                 Advertisements.Add(Advertisement);
             }
             return Advertisements;
+        }
+
+        private string DropSpecialCharacter(string Product)
+        {
+            for (int Position = 0; Position < Product.Length; Position++)
+            {
+                string SpecialCharacter = "'";
+                if (Product[Position] == SpecialCharacter[0])
+                {
+                    Product = Product.Replace("'", " ");
+                }
+            }
+            return Product;
         }
 
         public abstract string GetWebSite();

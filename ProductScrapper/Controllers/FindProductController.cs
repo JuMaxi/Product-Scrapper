@@ -14,21 +14,24 @@ namespace ProductScrapper.Controllers
         IEnumerable<ISearch> Search;
         ICheckSendEmail CheckSendEmail;
         IWriteFormatEmail WriteFormatEmail;
-        public FindProductController(IEnumerable<ISearch> Searches, ICheckSendEmail Check, IWriteFormatEmail Write) 
+        public FindProductController(IEnumerable<ISearch> Searches, ICheckSendEmail Check, IWriteFormatEmail Write)
         {
             Search = Searches;
             CheckSendEmail = Check;
             WriteFormatEmail = Write;
         }
-        
+
 
         [HttpGet]
-        public string GetAdvertisements([FromQuery] string Filter)
+        public string GetAdvertisements([FromQuery] List<string> Filter)
         {
             List<Advertisements> Advertisements = new List<Advertisements>();
-            foreach(ISearch Search in Search)
+            foreach (ISearch Search in Search)
             {
-                Advertisements.AddRange(Search.GetAdvertisement(Filter));
+                foreach (string F in Filter)
+                {
+                    Advertisements.AddRange(Search.GetAdvertisement(F));
+                }
             }
 
             Advertisements = CheckSendEmail.ReadAdvertisementDB(Advertisements);
@@ -49,6 +52,6 @@ namespace ProductScrapper.Controllers
 
 
 
-       
+
     }
 }

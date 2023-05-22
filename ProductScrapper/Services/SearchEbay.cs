@@ -21,25 +21,12 @@ namespace ProductScrapper.Services
             return New.Value;
         }
 
-        private string DropSpecialCharacter(string Product)
-        {
-            for(int Position = 0; Position < Product.Length; Position++)
-            {
-                string SpecialCharacter = "'";
-                if (Product[Position] == SpecialCharacter[0])
-                {
-                    Product = Product.Replace("'", " ");
-                }
-            }
-            return Product;
-        }
         public override string GetProduct(HtmlNode Link) 
         {
             var SpanElement = Link.SelectNodes("div/span")[0];
             var Product = SpanElement.InnerText.Trim();
             Product = Product.Replace("amp;", "");
 
-            Product = DropSpecialCharacter(Product);
             return Product;
         }
         public override string GetImage(HtmlNode Link)
