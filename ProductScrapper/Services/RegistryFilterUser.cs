@@ -18,10 +18,14 @@ namespace ProductScrapper.Services
 
         public void RegistryEmailUser(FilterUser New)
         {
-            string Insert = "insert into Users (Email) values ('" + New.Email + "')";
-            AccessDB.AccessNonQuery(Insert);
+            if(ReturnId(New) == 0) 
+            {
+                string Insert = "insert into Users (Email) values ('" + New.Email + "')";
+                AccessDB.AccessNonQuery(Insert);
+            }
         }
 
+       
         private int ReturnId(FilterUser New)
         {
             string Select = "select * from Users where Email='" + New.Email + "'";
@@ -32,6 +36,7 @@ namespace ProductScrapper.Services
             {
                 return Convert.ToInt32(Reader["Id"]);
             }
+            Reader.Close();
 
             return 0;
         }

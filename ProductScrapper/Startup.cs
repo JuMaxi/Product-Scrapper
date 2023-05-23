@@ -29,6 +29,7 @@ namespace ProductScrapper
             services.AddTransient<ISearch, SearchEbay>();
             services.AddTransient<ISearch, SearchTrashNothing>();
             services.AddTransient<IAccessDataBase, AccessDataBase>();
+            services.AddTransient<ISendEmail, SendEmail>();
             services.AddTransient<ICheckSendEmail, CheckSendEmail>();
             services.AddTransient<IWriteFormatEmail, WriteFormatEmail>();
             services.AddTransient<IRegistryFilterUser, RegistryFilterUser>();

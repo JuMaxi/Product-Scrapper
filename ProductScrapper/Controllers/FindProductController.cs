@@ -12,12 +12,14 @@ namespace ProductScrapper.Controllers
     public class FindProductController : ControllerBase
     {
         IEnumerable<ISearch> Search;
+        ISendEmail SendEmail;
         ICheckSendEmail CheckSendEmail;
         IWriteFormatEmail WriteFormatEmail;
         IRegistryFilterUser RegistryFilterUser;
-        public FindProductController(IEnumerable<ISearch> Searches, ICheckSendEmail Check, IWriteFormatEmail Write, IRegistryFilterUser FilterUser)
+        public FindProductController(IEnumerable<ISearch> Searches,ISendEmail Send, ICheckSendEmail Check, IWriteFormatEmail Write, IRegistryFilterUser FilterUser)
         {
             Search = Searches;
+            SendEmail = Send;
             CheckSendEmail = Check;
             WriteFormatEmail = Write;
             RegistryFilterUser = FilterUser;
@@ -33,33 +35,34 @@ namespace ProductScrapper.Controllers
 
 
         [HttpGet]
-        public string GetAdvertisements([FromQuery] List<string> Filter)
+        public string GetAdvertisements()
         {
-            RegistryFilterUser.ReadFiltersDB();
+            List<FilterUser> FilterUser = RegistryFilterUser.ReadFiltersDB();
 
             List<Advertisements> Advertisements = new List<Advertisements>();
 
-            foreach (string F in Filter)
+            foreach (FilterUser Filter in FilterUser)
             {
                 foreach (ISearch Search in Search)
                 {
-                    Advertisements.AddRange(Search.GetAdvertisement(F));
+                    foreach (string F in Filter.Filters)
+                    {
+                        Advertisements.AddRange(Search.GetAdvertisement(F));
+                    }
                 }
+
+                Advertisements = CheckSendEmail.ReadAdvertisementDB(Advertisements);
+                CheckSendEmail.SaveAdvertisementDB(Advertisements);
+
+                if (Advertisements.Count == 0)
+                {
+                    return "There are no new adds.";
+                }
+
+                string HTML = WriteFormatEmail.FormatHtml(Advertisements);
+
+                SendEmail.SendEmailToClient(HTML, Filter.Email);
             }
-
-            Advertisements = CheckSendEmail.ReadAdvertisementDB(Advertisements);
-            CheckSendEmail.SaveAdvertisementDB(Advertisements);
-
-            if (Advertisements.Count == 0)
-            {
-                return "There are no new adds.";
-            }
-
-            string HTML = WriteFormatEmail.FormatHtml(Advertisements);
-
-            SendEmail SendEmail = new SendEmail();
-            SendEmail.SendEmailToClient(HTML);
-
             return "Ok";
         }
 

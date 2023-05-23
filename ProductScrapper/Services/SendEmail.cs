@@ -1,9 +1,12 @@
 ﻿using System.Net.Mail;
 using System.Net;
+using ProductScrapper.Models;
+using ProductScrapper.Interfaces;
+using System.Collections.Generic;
 
 namespace ProductScrapper.Services
 {
-    public class SendEmail
+    public class SendEmail : ISendEmail
     {
         private string ReadFile()
         {
@@ -17,9 +20,10 @@ namespace ProductScrapper.Services
             }
             return null;
         }
-        public void SendEmailToClient(string HTML)
+        public void SendEmailToClient(string HTML, string Email)
         {
             string Password = ReadFile();
+
             using (SmtpClient smtpClient = new SmtpClient())
             {
                 var basicCredential = new NetworkCredential("jmaximovski@gmail.com", Password);
@@ -37,11 +41,12 @@ namespace ProductScrapper.Services
                     message.Subject = "New items found by Scrapper";
                     message.IsBodyHtml = true;
                     message.Body = HTML;
-                    message.To.Add("jmaximovski@gmail.com");
+                    message.To.Add(Email);
 
                     smtpClient.Send(message);
                 }
             }
+
         }
     }
 }
