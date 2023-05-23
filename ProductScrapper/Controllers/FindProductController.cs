@@ -14,17 +14,29 @@ namespace ProductScrapper.Controllers
         IEnumerable<ISearch> Search;
         ICheckSendEmail CheckSendEmail;
         IWriteFormatEmail WriteFormatEmail;
-        public FindProductController(IEnumerable<ISearch> Searches, ICheckSendEmail Check, IWriteFormatEmail Write)
+        IRegistryFilterUser RegistryFilterUser;
+        public FindProductController(IEnumerable<ISearch> Searches, ICheckSendEmail Check, IWriteFormatEmail Write, IRegistryFilterUser FilterUser)
         {
             Search = Searches;
             CheckSendEmail = Check;
             WriteFormatEmail = Write;
+            RegistryFilterUser = FilterUser;
+        }
+
+        [HttpPost]
+        public void InsertUserAndFilters(FilterUser New)
+        {
+            RegistryFilterUser.RegistryEmailUser(New);
+
+            RegistryFilterUser.RegistryFilterToUser(New);
         }
 
 
         [HttpGet]
         public string GetAdvertisements([FromQuery] List<string> Filter)
         {
+            RegistryFilterUser.ReadFiltersDB();
+
             List<Advertisements> Advertisements = new List<Advertisements>();
 
             foreach (string F in Filter)
